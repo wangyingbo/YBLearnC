@@ -64,9 +64,16 @@ int main() {
     }
 
     // 设置服务器地址
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.s_addr = INADDR_ANY;
-    server_addr.sin_port = htons(PORT);
+    server_addr.sin_family = AF_INET; //指定地址族，对于 IPv4，一般设置为 AF_INET。
+    /**
+     * 存储 IPv4 地址。这个成员是一个 struct in_addr 类型，其定义如下：
+     * struct in_addr {
+     *     uint32_t s_addr; // 32 位的 IPv4 地址，使用网络字节序
+     * };
+     * 
+     * */
+    server_addr.sin_addr.s_addr = INADDR_ANY; 
+    server_addr.sin_port = htons(PORT); //指定端口号，必须使用网络字节序。可以使用 htons 函数将主机字节序转换为网络字节序。
 
     // 绑定套接字到端口
     if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
